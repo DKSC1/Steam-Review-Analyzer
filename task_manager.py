@@ -21,10 +21,11 @@ class TaskManager:
     def configure_widget_groups(self):
         """Defines which widgets get disabled during operations."""
         try:
-            # --- ADD 'stop_button' to the list of managed widgets ---
+            # --- ADD 'strip_button' to the list ---
             action_buttons = [
-                self.widgets['scrape_button'], self.widgets['stop_button'], # Added stop_button
+                self.widgets['scrape_button'], self.widgets['stop_button'],
                 self.widgets['optimize_button'], self.widgets['load_button'],
+                self.widgets['strip_button'], # <-- Added strip_button here
                 self.widgets['ai_send_optimized_button'], self.widgets['ai_send_original_button']
             ]
             setting_entries = [
@@ -44,12 +45,10 @@ class TaskManager:
             ]
 
             base_list = action_buttons + setting_entries + filter_widgets + other_controls
-            # Note: stop_button is now in widgets_to_disable_actions
-            # We will handle its enabling/disabling specifically
+            # Note: stop_button is handled specifically in start_action/check_thread
             self.widgets_to_disable_actions = [w for w in base_list if w]
 
-            # Fetch disable list might need review if stop button shouldn't be disabled then
-            # For now, keep it the same, meaning stop is disabled during fetch.
+            # Fetch disable list can remain the same for now
             self.widgets_to_disable_fetch = self.widgets_to_disable_actions
 
         except KeyError as ke:
@@ -106,7 +105,7 @@ class TaskManager:
             except Exception as e: self.log_func(f"Warn: Error ensuring game name state: {e}") # noqa
 
     # --- General Action Thread ---
-    # MODIFIED: Clear stop event before starting scrape
+    # MODIFIED: Added 'strip' to the list of simple boolean results
     def start_action(self, action_func, action_type="action"):
         """Starts a thread for actions, clearing stop event for scrape."""
         self.log_func(f"Starting task: {action_type}...")
@@ -131,12 +130,14 @@ class TaskManager:
         def thread_target_wrapper():
             try: result = action_func() # noqa
             except Exception as e: self.log_func(f"Critical error in background task ({action_type}): {e}\n{traceback.format_exc()}"); action_result["success"] = False; return # noqa
-            # Unpack results (same as before)
+            # Unpack results based on action type
             if action_type in ["ai", "load"]:
                 if isinstance(result, tuple) and len(result) == 3: action_result["success"], action_result["data"], action_result["full_text"] = result # noqa
                 else: self.log_func(f"Warn: Bad return from {action_type}: {result}"); action_result["success"] = False # noqa
-            elif action_type in ["scrape", "optimize"]: action_result["success"] = bool(result) # noqa
-            else: action_result["success"] = bool(result) # noqa
+            elif action_type in ["scrape", "optimize", "strip"]: # <-- Added 'strip' here
+                action_result["success"] = bool(result) # Expecting True/False
+            else:
+                action_result["success"] = bool(result) # Default assumption
 
         thread = threading.Thread(target=thread_target_wrapper, daemon=True)
         thread.start()
@@ -187,6 +188,8 @@ class TaskManager:
                     self.gui_manager.update_ai_response_text(f"[{action_type.capitalize()} Failed / No Data Loaded]") # noqa
 
             # --- Update Token Display ---
+            # Only update after scrape/optimize success, or AI/Load actions.
+            # Stripping doesn't currently recalculate tokens, so no update needed.
             if (action_type in ["scrape", "optimize"] and action_result.get("success")) or \
                (action_type in ["ai", "load"]):
                  try: self.root.after(50, self.gui_manager.update_token_display) # noqa

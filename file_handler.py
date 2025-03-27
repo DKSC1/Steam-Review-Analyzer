@@ -2,6 +2,8 @@
 import os
 import csv
 import traceback
+import re  # <--- Import re for regex
+import shutil # <--- Import shutil for file operations
 from tkinter import messagebox
 
 # Try importing pandas, set flag
@@ -18,7 +20,7 @@ from process_handler import get_game_folder_path
 
 
 # --- XLSX Generation ---
-# (Moved from actions.py)
+# (generate_xlsx_from_csv stays the same)
 def generate_xlsx_from_csv(csv_filepath, xlsx_filepath, log_func):
     """Reads a CSV and generates an XLSX file using pandas, if available."""
     if not PANDAS_AVAILABLE:
@@ -87,7 +89,7 @@ def generate_xlsx_from_csv(csv_filepath, xlsx_filepath, log_func):
 
 
 # --- Load Existing Data ---
-# (Moved from actions.py)
+# (load_existing_data stays the same)
 def load_existing_data(widgets, log_func):
     """Loads existing processed data (CSV and AI Text) for the selected game."""
     game_name = ""
@@ -176,3 +178,135 @@ def load_existing_data(widgets, log_func):
 
     # Return success (meaning *some* data was loaded), loaded CSV (or None), loaded Text (or placeholder/None)
     return True, loaded_csv_data, loaded_text_data
+
+
+# --- MODIFIED: Strip Metadata Function (Overwrites Optimized File) ---
+def strip_review_metadata(widgets, log_func):
+    """
+    Reads the optimized review file, removes metadata headers (like 'Date YYYY-MM-DD Playtime...'),
+    and overwrites the *original* optimized file with the stripped content.
+    Uses a temporary file for safety.
+    Returns True on success, False on failure.
+    """
+    game_name = ""
+    steam_app_id = ""
+    # Safely get widget values
+    try:
+        if widgets.get('game_name_entry'): game_name = widgets['game_name_entry'].get().strip()
+        if widgets.get('steam_id_entry'): steam_app_id = widgets['steam_id_entry'].get().strip()
+    except Exception as e:
+        log_func(f"Error getting game/ID from widgets for stripping: {e}")
+        messagebox.showwarning("Input Error", "Could not read Game Name or Steam ID.")
+        return False
+
+    if not game_name or not steam_app_id or not steam_app_id.isdigit():
+        messagebox.showwarning("Input Error", "Game Name and valid Steam ID required to strip metadata.")
+        return False
+
+    # Get game folder path
+    game_folder_path = get_game_folder_path(game_name, steam_app_id, log_func)
+    if not game_folder_path:
+        return False # Error already shown
+
+    folder_basename = os.path.basename(game_folder_path)
+
+    # Define the target file path (the optimized file)
+    optimized_file_path = os.path.join(game_folder_path, f"{folder_basename}_reviews_optimized.txt")
+    # Define a temporary file path in the same directory
+    temp_file_path = os.path.join(game_folder_path, f"{folder_basename}_reviews_temp_strip.txt")
+
+    # Check if optimized file exists
+    if not os.path.exists(optimized_file_path):
+        log_func(f"Stripping Error: Optimized file not found: {os.path.basename(optimized_file_path)}")
+        messagebox.showwarning("File Missing", f"The optimized review file to modify was not found:\n{os.path.basename(optimized_file_path)}\n\nRun Step 2 (Optimize) first.")
+        return False
+
+    # --- Confirmation Prompt ---
+    confirm_overwrite = messagebox.askyesno(
+        "Confirm Overwrite",
+        f"This will permanently remove metadata (like 'Date...', 'Playtime...', 'Rec...') "
+        f"from the beginning of lines in the file:\n\n"
+        f"'{os.path.basename(optimized_file_path)}'\n\n"
+        f"This action cannot be undone easily. Proceed?",
+        icon='warning'
+    )
+    if not confirm_overwrite:
+        log_func("Metadata stripping cancelled by user (confirmation denied).")
+        return False
+    # --- End Confirmation ---
+
+    log_func(f"Starting metadata stripping for: {os.path.basename(optimized_file_path)}")
+    log_func("This will OVERWRITE the existing file.")
+
+    # Define the improved regex pattern
+    # - ^ : Start of the line
+    # - Date\s+ : Literal 'Date' followed by one or more spaces
+    # - \d{4}-\d{2}-\d{2} : YYYY-MM-DD format
+    # - \s+Playtime\s+ : Space, 'Playtime', Space
+    # - \d+h\s+\d+m : Digit(s) + "h", space(s), digit(s) + "m" format for playtime
+    # - \s+Rec\s+ : Space, 'Rec', Space
+    # - (?:Positive|Negative) : Non-capturing group for 'Positive' or 'Negative'
+    # - \s* : Zero or more trailing spaces after the metadata
+    metadata_pattern = re.compile(r'^Date\s+\d{4}-\d{2}-\d{2}\s+Playtime\s+\d+h\s+\d+m\s+Rec\s+(?:Positive|Negative)\s*')
+
+    lines_processed = 0
+    lines_stripped = 0
+    success = False # Flag to track successful completion before replacing file
+
+    try:
+        # Process line by line to a temporary file first for safety
+        with open(optimized_file_path, 'r', encoding='utf-8') as infile, \
+             open(temp_file_path, 'w', encoding='utf-8') as temp_outfile:
+
+            for line in infile:
+                lines_processed += 1
+                # Apply the regex substitution
+                stripped_line = metadata_pattern.sub('', line)
+
+                # Check if stripping actually removed something
+                if len(stripped_line) < len(line):
+                    lines_stripped += 1
+
+                # Write the potentially modified line to the temporary output file
+                temp_outfile.write(stripped_line)
+
+        # If we reached here without exceptions, the temp file is complete
+        success = True
+        log_func(f"Successfully processed {lines_processed} lines to temporary file.")
+        log_func(f"Removed metadata header from approximately {lines_stripped} lines.")
+
+    except IOError as e:
+        log_func(f"Stripping Error: Failed to read/write files: {e}")
+        messagebox.showerror("File I/O Error", f"Failed to read or write files during stripping:\n{e}")
+        success = False # Ensure replacement doesn't happen
+    except Exception as e:
+        log_func(f"Stripping Error: An unexpected error occurred during processing: {e}\n{traceback.format_exc()}")
+        messagebox.showerror("Stripping Error", f"An unexpected error occurred during metadata stripping:\n{e}")
+        success = False # Ensure replacement doesn't happen
+    finally:
+        # --- Overwrite original file ONLY if processing was successful ---
+        if success:
+            try:
+                # Replace the original optimized file with the temporary stripped file
+                shutil.move(temp_file_path, optimized_file_path)
+                log_func(f"Successfully overwrote '{os.path.basename(optimized_file_path)}' with stripped content.")
+                # Return True only after successful move/overwrite
+                return True
+            except OSError as move_err:
+                log_func(f"CRITICAL ERROR: Failed to overwrite original file '{os.path.basename(optimized_file_path)}' after stripping: {move_err}")
+                messagebox.showerror("File Replace Error", f"Failed to save the stripped content over the original file:\n{move_err}\n\nThe stripped content might be in a temporary file:\n{os.path.basename(temp_file_path)}")
+                return False # Return False as the overwrite failed
+            except Exception as final_err:
+                log_func(f"CRITICAL ERROR: Unexpected error replacing file: {final_err}")
+                messagebox.showerror("File Replace Error", f"Unexpected error saving stripped content:\n{final_err}")
+                return False
+        else:
+            # If processing failed, attempt to clean up the temporary file
+            if os.path.exists(temp_file_path):
+                try:
+                    os.remove(temp_file_path)
+                    log_func("Removed temporary stripping file due to processing error.")
+                except OSError as rm_err:
+                    log_func(f"Warning: Could not remove temporary stripping file after error: {rm_err}")
+            # Return False because the operation didn't complete successfully
+            return False

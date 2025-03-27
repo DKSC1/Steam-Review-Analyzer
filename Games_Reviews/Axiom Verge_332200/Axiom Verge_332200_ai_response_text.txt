@@ -1,0 +1,125 @@
+```csv
+Category,Point_Number,Content
+Summary,,"Axiom Verge is a well-crafted tribute to the Metroid series, with a concise story, key points for various categories, and exact same information formatted as CSV data."
+Positives,1,"Engaging core gameplay loop keeps players hooked."
+Positives,2,"Beautiful art style and environmental design appreciated."
+Positives,3,"Interesting world story characters."
+Positives,4,"Vast catalog of weapons rewards you for using the right tool for the right enemy."
+Positives,5,"Traversal tools unlocked are very unique."
+Positives,6,"Beautiful pixel art."
+Positives,7,"Great soundtrack."
+Positives,8,"Full of heart and soul and an excellent presentation of the metroid half of metroidvania."
+Positives,9,"The game has an amazing atmosphere."
+Positives,10,"The gameplay itself is not that good."
+Positives,11,"The game is great"
+Positives,12,"The overall feeling of the game at least for me was mostly on par with the original albeit less cumbersome and frustrating"
+Positives,13,"If you like Metroid you will like this game"
+Positives,14,"Great retro graphics."
+Positives,15,"the music is perfect and and the game is well built"
+Positives,16,"A wonderful example of the Metroidvania genre."
+Positives,17,"Good gameplay"
+Positives,18,"Good levels"
+Positives,19,"Good music"
+Positives,20,"Good story"
+Negatives,1,"Frequent crashes and bugs reported by many users."
+Negatives,2,"Poor optimization leads to low FPS on capable PCs."
+Negatives,3,"Not much replayability."
+Negatives,4,"Not much replayability does support speedrun and randomizer modes however."
+Negatives,5,"the map doesn't mark items in rooms."
+Negatives,6,"Boss fights are meh."
+Negatives,7,"Not much replayability."
+Negatives,8,"The story can be a bit confusing"
+Negatives,9,"The lack of fast travel."
+Negatives,10,"Not as good as it could be."
+Negatives,11,"A bit short"
+Negatives,12,"The main character's voice is anoying and makes little sense."
+Negatives,13,"In general the enemies are just frustrating."
+Negatives,14," Bosses can be boring"
+Negatives,15,"Some issues with the controls."
+Negatives,16,"The lack of a fast travel system."
+Negatives,17,"Some of the weapons are bad"
+Negatives,18,"Not much replayability."
+Negatives,19,"the enemy ai can be weak"
+Negatives,20,"Bosses are not memorable"
+Gameplay,1,"Combat system is deep and rewarding to master."
+Gameplay,2,"The exploration factor is good"
+Gameplay,3,"The different levels are unique"
+Gameplay,4,"Boss fights are well-done"
+Gameplay,5,"The weapons are fun"
+Gameplay,6,"Bosses are a joy to beat."
+Gameplay,7,"The items are interesting"
+Gameplay,8,"Puzzles and platforming can be challenging"
+Gameplay,9,"It has a retro feel with the new controls"
+Gameplay,10,"Great gameplay"
+Gameplay,11,"Unique game mechanics"
+Gameplay,12,"The level design is great"
+Gameplay,13,"Easy to get into"
+Gameplay,14,"The game allows for creativity"
+Gameplay,15,"The weapons and tools are extremely cool"
+Gameplay,16,"Strong on exploration"
+Gameplay,17,"A lot of fun"
+Gameplay,18,"The gameplay is great"
+Gameplay,19,"The game feels very well paced"
+Gameplay,20,"The gameplay is great"
+Performance,1,,
+Performance,2,,
+Performance,3,,
+Performance,4,,
+Performance,5,,
+Performance,6,,
+Performance,7,,
+Performance,8,,
+Performance,9,,
+Performance,10,,
+Performance,11,,
+Performance,12,,
+Performance,13,,
+Performance,14,,
+Performance,15,,
+Performance,16,,
+Performance,17,,
+Performance,18,,
+Performance,19,,
+Performance,20,,
+Recommendations,1,"Highly recommended for Metroid fans and those looking for a Metroidvania experience."
+Recommendations,2,"A must-play for any Metroid fan."
+Recommendations,3,"Easy recommendation for fans of the genre."
+Recommendations,4,"Recommend it to anyone who enjoys platformers and sci-fi."
+Recommendations,5,"Axiom Verge is a must-buy for any fan of the Metroidvania genre"
+Recommendations,6,"Buy this game if you like metroid"
+Recommendations,7,"If you like Metroid you will love this game"
+Recommendations,8,"highly recommend this game"
+Recommendations,9,"Highly recommended"
+Recommendations,10,"Strongly Recommended"
+Recommendations,11,"a must buy for any fan of Metroidvanias or for people who love the genre"
+Recommendations,12,"Recommended to any who likes Metroid or Super Metroid."
+Recommendations,13,"The game is 100 recommend"
+Recommendations,14,"Worth buying"
+Recommendations,15,"Definitely recommend this"
+Recommendations,16,"Great if you like Metroid"
+Recommendations,17,"I recommend this game"
+Recommendations,18,"Definitely worth the money"
+Recommendations,19,"A Must Play"
+Recommendations,20,"HIGHLY RECOMMENDED"
+Miscellaneous,1,"Interesting story with a rich lore."
+Miscellaneous,2,"Axiom Verge is an embodiment of the good design principles."
+Miscellaneous,3,"Unique setting and plot twists."
+Miscellaneous,4,"It's a great metroidvania and a unique title."
+Miscellaneous,5,"The setting is unique"
+Miscellaneous,6,"The setting and creatures are truly original"
+Miscellaneous,7,"The story and the way it's told."
+Miscellaneous,8,"The game has a good sense of immersion."
+Miscellaneous,9,"The world is worth exploring"
+Miscellaneous,10,"The game has a certain level of mystery."
+Miscellaneous,11,"The overall atmosphere of the game."
+Miscellaneous,12,"The story was interesting."
+Miscellaneous,13,"Interesting story."
+Miscellaneous,14,"The world is unique and has so much to offer."
+Miscellaneous,15,"All is said and done 9/10."
+Miscellaneous,16,"Axiom Verge is a love letter to Metroid."
+Miscellaneous,17,"Unique and intriguing"
+Miscellaneous,18,"A unique take on the metroidvania genre."
+Miscellaneous,19,"Is a solid game"
+Miscellaneous,20,"Axiom Verge is a must-play for every fan of the genre"
+<CSV_END>
+```

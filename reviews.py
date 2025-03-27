@@ -52,7 +52,7 @@ def get_initial_game_data(session, app_id):
     except Exception as e: print(f"reviews.py: Warn: Failed review summary: {e}", file=sys.stderr) # noqa
     return details
 
-# (format_review_for_file remains the same)
+# (format_review_for_file remains the same - metadata format here is key)
 def format_review_for_file(review_dict):
     try:
         review_text = review_dict.get('review', ''); timestamp = review_dict.get('timestamp_created', 0); # noqa
@@ -61,7 +61,8 @@ def format_review_for_file(review_dict):
         playtime_hours = playtime_minutes // 60; playtime_rem_mins = playtime_minutes % 60; # noqa
         playtime_str = f"{playtime_hours}h {playtime_rem_mins}m"
         rec_str = "Positive" if voted_up else "Negative"
-        header = f"[Date: {date_str} | Playtime: {playtime_str} | Rec: {rec_str}] "
+        # --- MODIFIED HEADER FORMAT --- (Removed brackets, added literal text)
+        header = f"Date {date_str} Playtime {playtime_str} Rec {rec_str} "
         cleaned_text = review_text.replace('\r\n', ' ').replace('\n', ' ').replace('\r', ' ') # noqa
         return header + cleaned_text + '\n'
     except Exception as e:

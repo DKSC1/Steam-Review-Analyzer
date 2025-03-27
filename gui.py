@@ -12,7 +12,8 @@ from config import (
 def build_gui(root, fetch_callback, scrape_callback, optimize_callback,
               ai_optimized_callback, ai_original_callback,
               load_callback, refresh_callback,
-              stop_scrape_callback):
+              stop_scrape_callback,
+              strip_metadata_callback): # <-- Add new callback parameter
     """Creates and packs the GUI elements into the root window."""
 
     root.title("Steam Reviews Analyzer (Gemini CTk)")
@@ -33,8 +34,21 @@ def build_gui(root, fetch_callback, scrape_callback, optimize_callback,
     # General Settings Frame (Row 1 - Unchanged)
     settings_frame = ctk.CTkFrame(main_frame); settings_frame.grid(row=1, column=0, sticky="ew", pady=5); settings_frame.columnconfigure((1, 3, 5, 7), weight=1); ctk.CTkLabel(settings_frame, text="Max Rev:", width=60).grid(row=0, column=0, padx=(5,0), pady=2, sticky="e"); widgets['max_reviews_entry'] = ctk.CTkEntry(settings_frame, width=70); widgets['max_reviews_entry'].insert(0, str(DEFAULT_SETTINGS['max_reviews'])); widgets['max_reviews_entry'].grid(row=0, column=1, padx=(0,5), pady=2, sticky="ew"); ctk.CTkLabel(settings_frame, text="Tok Thr:", width=60).grid(row=0, column=2, padx=(5,0), pady=2, sticky="e"); widgets['token_threshold_entry'] = ctk.CTkEntry(settings_frame, width=80); widgets['token_threshold_entry'].insert(0, str(DEFAULT_SETTINGS['token_threshold'])); widgets['token_threshold_entry'].grid(row=0, column=3, padx=(0,5), pady=2, sticky="ew"); ctk.CTkLabel(settings_frame, text="Sleep:", width=50).grid(row=0, column=4, padx=(5,0), pady=2, sticky="e"); widgets['sleep_duration_entry'] = ctk.CTkEntry(settings_frame, width=50); widgets['sleep_duration_entry'].insert(0, str(DEFAULT_SETTINGS['sleep_duration'])); widgets['sleep_duration_entry'].grid(row=0, column=5, padx=(0,5), pady=2, sticky="ew"); ctk.CTkLabel(settings_frame, text="#/Page:", width=50).grid(row=0, column=6, padx=(5,0), pady=2, sticky="e"); widgets['num_per_page_entry'] = ctk.CTkEntry(settings_frame, width=50); widgets['num_per_page_entry'].insert(0, str(DEFAULT_SETTINGS['num_per_page'])); widgets['num_per_page_entry'].grid(row=0, column=7, padx=(0,5), pady=2, sticky="ew"); # noqa
 
-    # Action Buttons Frame (Row 2 - Unchanged)
-    button_frame = ctk.CTkFrame(main_frame); button_frame.grid(row=2, column=0, sticky="ew", pady=5); widgets['scrape_button'] = ctk.CTkButton(button_frame, text="1. Scrape", command=scrape_callback, width=100); widgets['scrape_button'].pack(side="left", padx=5, pady=5); widgets['stop_button'] = ctk.CTkButton(button_frame, text="Stop Scraping", command=stop_scrape_callback, width=100, state="disabled", fg_color="darkred", hover_color="red"); widgets['stop_button'].pack(side="left", padx=5, pady=5); widgets['optimize_button'] = ctk.CTkButton(button_frame, text="2. Optimize", command=optimize_callback, width=100); widgets['optimize_button'].pack(side="left", padx=5, pady=5); widgets['load_button'] = ctk.CTkButton(button_frame, text="Load Existing", command=load_callback, width=100); widgets['load_button'].pack(side="left", padx=5, pady=5); # noqa
+    # Action Buttons Frame (Row 2 - Modified Text)
+    button_frame = ctk.CTkFrame(main_frame)
+    button_frame.grid(row=2, column=0, sticky="ew", pady=5)
+    widgets['scrape_button'] = ctk.CTkButton(button_frame, text="1. Scrape", command=scrape_callback, width=100)
+    widgets['scrape_button'].pack(side="left", padx=5, pady=5)
+    widgets['stop_button'] = ctk.CTkButton(button_frame, text="Stop Scraping", command=stop_scrape_callback, width=100, state="disabled", fg_color="darkred", hover_color="red")
+    widgets['stop_button'].pack(side="left", padx=5, pady=5)
+    widgets['optimize_button'] = ctk.CTkButton(button_frame, text="2. Optimize", command=optimize_callback, width=100)
+    widgets['optimize_button'].pack(side="left", padx=5, pady=5)
+    widgets['load_button'] = ctk.CTkButton(button_frame, text="Load Existing", command=load_callback, width=100)
+    widgets['load_button'].pack(side="left", padx=5, pady=5)
+    # --- Modified Button Text ---
+    widgets['strip_button'] = ctk.CTkButton(button_frame, text="Strip (Overwrite Opt.)", command=strip_metadata_callback, width=140) # <-- Updated Text & Width
+    widgets['strip_button'].pack(side="left", padx=5, pady=5)
+    # --- End Modified Button ---
 
     # Steam Filter Frame (Row 3 - Unchanged)
     filter_frame = ctk.CTkFrame(main_frame); filter_frame.grid(row=3, column=0, sticky="nsew", pady=5); filter_frame.grid_columnconfigure((1, 3, 5), weight=1); ctk.CTkLabel(filter_frame, text="Language:").grid(row=0, column=0, padx=(5, 2), pady=3, sticky="e"); lang_options = list(STEAM_LANGUAGES.keys()); widgets['filter_language_combo'] = ctk.CTkComboBox(filter_frame, values=lang_options, state="readonly"); widgets['filter_language_combo'].set("All Languages"); widgets['filter_language_combo'].grid(row=0, column=1, padx=(0, 5), pady=3, sticky="ew"); ctk.CTkLabel(filter_frame, text="Type:").grid(row=0, column=2, padx=(10, 2), pady=3, sticky="e"); type_options = list(STEAM_REVIEW_TYPES.keys()); widgets['filter_review_type_option'] = ctk.CTkOptionMenu(filter_frame, values=type_options); widgets['filter_review_type_option'].set("All"); widgets['filter_review_type_option'].grid(row=0, column=3, padx=(0, 5), pady=3, sticky="ew"); ctk.CTkLabel(filter_frame, text="Purchase:").grid(row=0, column=4, padx=(10, 2), pady=3, sticky="e"); purchase_options = list(STEAM_PURCHASE_TYPES.keys()); widgets['filter_purchase_type_option'] = ctk.CTkOptionMenu(filter_frame, values=purchase_options); widgets['filter_purchase_type_option'].set("All"); widgets['filter_purchase_type_option'].grid(row=0, column=5, padx=(0, 5), pady=3, sticky="ew"); ctk.CTkLabel(filter_frame, text="Date Range:").grid(row=1, column=0, padx=(5, 2), pady=3, sticky="e"); date_options = list(STEAM_DATE_RANGES.keys()); widgets['filter_date_range_option'] = ctk.CTkOptionMenu(filter_frame, values=date_options); widgets['filter_date_range_option'].set("All Time"); widgets['filter_date_range_option'].grid(row=1, column=1, padx=(0, 5), pady=3, sticky="ew"); ctk.CTkLabel(filter_frame, text="Min Playtime:").grid(row=1, column=2, padx=(10, 2), pady=3, sticky="e"); playtime_options = list(STEAM_PLAYTIME_FILTERS.keys()); widgets['filter_playtime_option'] = ctk.CTkOptionMenu(filter_frame, values=playtime_options); widgets['filter_playtime_option'].set("Any"); widgets['filter_playtime_option'].grid(row=1, column=3, padx=(0, 5), pady=3, sticky="ew"); ctk.CTkLabel(filter_frame, text="Filter By:").grid(row=1, column=4, padx=(10, 2), pady=3, sticky="e"); filterby_options = list(STEAM_FILTER_BY.keys()); widgets['filter_filter_by_option'] = ctk.CTkOptionMenu(filter_frame, values=filterby_options); widgets['filter_filter_by_option'].set("Most Helpful (Default)"); widgets['filter_filter_by_option'].grid(row=1, column=5, padx=(0, 5), pady=3, sticky="ew"); widgets['filter_beta_checkbox'] = ctk.CTkCheckBox(filter_frame, text="Include Beta/Early Access"); widgets['filter_beta_checkbox'].grid(row=2, column=0, columnspan=6, padx=5, pady=(5, 5), sticky="w"); # noqa
@@ -58,28 +72,26 @@ def build_gui(root, fetch_callback, scrape_callback, optimize_callback,
         widgets['model_combobox'].set(SUPPORTED_MODELS[0]['name'])
     else:
         widgets['model_combobox'].set(model_names[0])
-    widgets['model_combobox'].configure(state="disabled")  # noqa
+    # widgets['model_combobox'].configure(state="disabled") # Enable model selection later?
     ctk.CTkLabel(ai_outer_frame, text="Query for AI:").grid(row=2, column=0, columnspan=2, sticky="sw", padx=5, pady=(5,0)); widgets['ai_query_text'] = ctk.CTkTextbox(ai_outer_frame, wrap="word", height=100); widgets['ai_query_text'].grid(row=3, column=0, columnspan=2, sticky="nsew", padx=5, pady=(0, 5)); ai_buttons_frame = ctk.CTkFrame(ai_outer_frame, fg_color="transparent"); ai_buttons_frame.grid(row=4, column=0, columnspan=2, pady=(5,10)); widgets['ai_send_optimized_button'] = ctk.CTkButton(ai_buttons_frame, text="3a. Send OPTIMIZED", command=ai_optimized_callback, width=180); widgets['ai_send_optimized_button'].pack(side="left", padx=10); widgets['ai_send_original_button'] = ctk.CTkButton(ai_buttons_frame, text="3b. Send ORIGINAL", command=ai_original_callback, width=180); widgets['ai_send_original_button'].pack(side="left", padx=10); # noqa
 
     # --- Right Panel (Tabs) ---
+    # (Unchanged)
     right_panel = ctk.CTkFrame(root, fg_color="transparent"); right_panel.grid(row=0, column=2, sticky="nsew", padx=(5, 10), pady=10); right_panel.grid_rowconfigure(0, weight=1); right_panel.grid_columnconfigure(0, weight=1); # noqa
     widgets['right_tabview'] = ctk.CTkTabview(right_panel); widgets['right_tabview'].grid(row=0, column=0, sticky="nsew"); widgets['right_tabview'].add("Extracted Data"); widgets['right_tabview'].add("AI Response Text"); # noqa
 
     # Extracted Data Tab
+    # (Unchanged)
     data_tab = widgets['right_tabview'].tab("Extracted Data"); data_tab.grid_columnconfigure(0, weight=1); data_tab.grid_rowconfigure(1, weight=1); filter_data_frame = ctk.CTkFrame(data_tab, fg_color="transparent"); filter_data_frame.grid(row=0, column=0, sticky="ew", padx=5, pady=(5, 10)); filter_data_frame.columnconfigure(1, weight=1); ctk.CTkLabel(filter_data_frame, text="Filter (Col 1):", anchor="w").grid(row=0, column=0, padx=(0, 5)); widgets['filter_menu'] = ctk.CTkOptionMenu(filter_data_frame, values=["Show All"]); widgets['filter_menu'].grid(row=0, column=1, sticky="ew"); tree_frame = ctk.CTkFrame(data_tab, fg_color="transparent"); tree_frame.grid(row=1, column=0, sticky="nsew"); tree_frame.grid_columnconfigure(0, weight=1); tree_frame.grid_rowconfigure(0, weight=1); # noqa
 
     # --- Treeview Styling ---
-    # NOTE: The actual tag configuration (colors, fonts) is now done
-    #       in gui_manager.py's _configure_treeview_tags method.
-    #       This section just sets up the general ttk style base.
+    # (Unchanged)
     style = ttk.Style()
-    # Get theme colors for base style
     bg_color = root._apply_appearance_mode(ctk.ThemeManager.theme["CTkFrame"]["fg_color"])
     text_color = root._apply_appearance_mode(ctk.ThemeManager.theme["CTkLabel"]["text_color"])
     selected_color = root._apply_appearance_mode(ctk.ThemeManager.theme["CTkButton"]["fg_color"])
     header_bg = root._apply_appearance_mode(ctk.ThemeManager.theme["CTkButton"]["hover_color"])
 
-    # Apply base style
     style.theme_use("default")
     style.configure("Treeview",
                     background=bg_color, foreground=text_color,
@@ -93,37 +105,18 @@ def build_gui(root, fetch_callback, scrape_callback, optimize_callback,
               background=[('selected', selected_color)],
               foreground=[('selected', text_color)]) # Ensure text color on selection if needed
 
-    # --- ADD COMMENTS FOR COLOR CUSTOMIZATION ---
-    # To easily change the alternating row colors:
-    # 1. Go to `gui_manager.py`.
-    # 2. Find the `_configure_treeview_tags` method.
-    # 3. Modify the `bg_color` and `alt_row_color` variables:
-    #    - They currently try to use theme colors (frame background and border).
-    #    - You can replace them with hardcoded hex color strings, e.g.:
-    #      bg_color = "#FFFFFF"  # White for light mode 'odd' rows
-    #      alt_row_color = "#F0F0F0" # Light gray for light mode 'even' rows
-    #      # OR for dark mode:
-    #      # bg_color = "#2B2B2B"
-    #      # alt_row_color = "#313131"
-    #    - You can adjust the calculation based on border_color or make it slightly
-    #      darker/lighter than bg_color manually.
-    # --- END COLOR CUSTOMIZATION COMMENTS ---
-
     # Create Treeview widget
+    # (Unchanged)
     widgets['spreadsheet'] = ttk.Treeview(tree_frame, show='headings', style="Treeview")
-    # Scrollbars
     tree_vsb = ctk.CTkScrollbar(tree_frame, orientation="vertical", command=widgets['spreadsheet'].yview)
     tree_hsb = ctk.CTkScrollbar(tree_frame, orientation="horizontal", command=widgets['spreadsheet'].xview)
     widgets['spreadsheet'].configure(yscrollcommand=tree_vsb.set, xscrollcommand=tree_hsb.set)
-    # Grid layout
     widgets['spreadsheet'].grid(row=0, column=0, sticky='nsew')
     tree_vsb.grid(row=0, column=1, sticky='ns')
     tree_hsb.grid(row=1, column=0, sticky='ew')
-    # Initial content
     widgets['spreadsheet']['columns'] = ('Status',)
     widgets['spreadsheet'].heading('Status', text='Status')
     widgets['spreadsheet'].column('Status', anchor='w', width=200)
-    # Initial row - tag configured by gui_manager
     widgets['spreadsheet'].insert("", "end", values=["Load data..."])
 
 

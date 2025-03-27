@@ -13,7 +13,7 @@ import utils
 # Import NEW handlers/managers
 import process_handler
 import api_handler
-import file_handler
+import file_handler # <-- Make sure file_handler is imported
 import gui_manager # Import the class
 import task_manager # Import the class
 
@@ -55,7 +55,8 @@ def main():
             root, fetch_callback=None, scrape_callback=None, optimize_callback=None,
             ai_optimized_callback=None, ai_original_callback=None,
             load_callback=None, refresh_callback=None,
-            stop_scrape_callback=None # Placeholder for stop callback
+            stop_scrape_callback=None,
+            strip_metadata_callback=None # <-- Add placeholder for new callback
         )
     except Exception as gui_build_e:
         early_log(f"FATAL: GUI Build Error: {gui_build_e}\n{traceback.format_exc()}")
@@ -129,6 +130,8 @@ def main():
         ai_optimized_action = partial(api_handler.send_to_ai, widgets, lambda: API_KEY, config.SUPPORTED_MODELS, log_func, use_optimized_file=True)
         ai_original_action = partial(api_handler.send_to_ai, widgets, lambda: API_KEY, config.SUPPORTED_MODELS, log_func, use_optimized_file=False)
         load_action = partial(file_handler.load_existing_data, widgets, log_func)
+        # --- New Partial ---
+        strip_action = partial(file_handler.strip_review_metadata, widgets, log_func) # <-- Create partial for stripping
 
     except Exception as partial_e:
          log_func(f"FATAL: Error creating action partials: {partial_e}")
@@ -148,6 +151,8 @@ def main():
         widgets['ai_send_optimized_button'].configure(command=partial(task_mgr.start_action, ai_optimized_action, action_type="ai"))
         widgets['ai_send_original_button'].configure(command=partial(task_mgr.start_action, ai_original_action, action_type="ai"))
         widgets['load_button'].configure(command=partial(task_mgr.start_action, load_action, action_type="load"))
+        # --- Configure New Button ---
+        widgets['strip_button'].configure(command=partial(task_mgr.start_action, strip_action, action_type="strip")) # <-- Wire up strip button
 
         # Wire up STOP button to TaskManager method
         widgets['stop_button'].configure(command=task_mgr.request_stop)

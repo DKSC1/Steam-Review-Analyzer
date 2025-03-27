@@ -173,14 +173,15 @@ def run_scraping(root, widgets, settings_func, log_func, stop_event: threading.E
 
                     if line:
                         line_strip = line.strip(); log_func(f"SCRIPT: {line_strip}"); # noqa
-                        match = re.search(r'Total so far:\s*(\d+)', line_strip, re.IGNORECASE)
+                        # --- UPDATED PROGRESS REGEX ---
+                        match = re.search(r'Total written:\s*(\d+)', line_strip, re.IGNORECASE) # Match the actual output from reviews.py
                         if match:
                             try:
                                 current_reviews_scraped = int(match.group(1))
                                 progress_val = min(1.0, current_reviews_scraped / max_reviews_target) if max_reviews_target > 0 else 0 # noqa
                                 def _update_gui(val, prog): # Inner func for clarity
                                     try:
-                                        if progress_label and progress_label.winfo_exists(): progress_label.configure(text=f"Scraping: {val}/{max_reviews_target}"); # noqa
+                                        if progress_label and progress_label.winfo_exists(): progress_label.configure(text=f"Scraping: {val} / {max_reviews_target}"); # noqa
                                         if progress_bar and progress_bar.winfo_exists(): progress_bar.set(prog); # noqa
                                     except Exception: pass # Ignore GUI errors in callback
                                 if root and root.winfo_exists(): root.after(0, _update_gui, current_reviews_scraped, progress_val) # noqa
@@ -303,7 +304,7 @@ def run_scraping(root, widgets, settings_func, log_func, stop_event: threading.E
         if root and root.winfo_exists():
             root.after(10, reset_prog_gui)
         try:
-            reset_prog_gui()
+            reset_prog_gui() # Try immediate reset as well
         except Exception:
             pass
 
@@ -401,10 +402,19 @@ def run_optimization(widgets, settings_func, log_func):
                 log_func(f"Warn: Rem tmp in fail: {e}") # noqa
 
         if os.path.exists(tmp_out):
+            # Clean tmp_out only if the target wasn't successfully created
             if not os.path.exists(target):
                 try:
                     os.remove(tmp_out)
-                    log_func("Cleaned tmp out (no target).")
+                    log_func("Cleaned tmp out (no target created).")
                 except OSError as e:
                     log_func(f"Warn: Rem tmp out fail: {e}") # noqa
+            elif not ok: # Also clean if operation failed but target might exist from previous run
+                try:
+                    os.remove(tmp_out)
+                    log_func("Cleaned tmp out (operation failed).")
+                except OSError as e:
+                    log_func(f"Warn: Rem tmp out fail: {e}") # noqa
+
+
     return ok
