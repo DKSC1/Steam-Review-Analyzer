@@ -1,0 +1,76 @@
+Okay, I'm ready to analyze the Steam reviews for 'Peripeteia' and generate the requested outputs.
+
+```text
+Overall Summary: 'Peripeteia' receives very positive reviews, praised for its unique, immersive, and atmospheric gameplay, drawing comparisons to classic immersive sims with a distinctive post-Soviet cyberpunk setting. However, many reviewers note significant bugs, jank, and performance issues, particularly concerning level design and enemy AI.
+
+Positives:
+1. Unique and immersive atmosphere praised by many players.
+2. Interesting and well-developed world-building.
+3. Engaging gameplay loop with multiple approaches to objectives.
+4. Excellent and fitting soundtrack, including Sewerslvt tracks.
+5. Rewarding exploration with secrets and alternative routes.
+6. Great art style and visuals, despite low-poly graphics.
+7. Strong sense of player freedom and choice.
+8. Compelling characters and writing.
+9. Satisfying gunplay and combat mechanics.
+10. Excellent and moody level design despite some flaws.
+11. Good variety of weapons and augmentations.
+12. Interesting and innovative inventory management system.
+13. Climbing/parkour mechanics add to exploration and movement.
+14. Good representation of post-soviet eastern europe
+15. High replayability due to branching paths and secrets.
+16. There is a demo for players to try before buying.
+17. Welcoming to those interested in transhumanism.
+
+Negatives:
+1. Frequent bugs and glitches reported.
+2. Jankiness and lack of polish.
+3. Performance issues and optimization problems.
+4. Unintuitive level design and navigation can be confusing.
+5. Enemy AI is often simplistic and buggy.
+6. Lack of meaningful rewards for exploration in some areas.
+7. Loss of inventory between levels is frustrating.
+8. Some areas are too dark, requiring constant night vision use.
+9. Inconsistent stealth mechanics.
+10. Inconsistent volume and audio bugs are found.
+11. Belgrade level is often mentioned negatively.
+12. Game hard to run or play for extended periods.
+
+Gameplay:
+1. Stealth, combat, and exploration are key elements.
+2. Multiple approaches to objectives offer player choice.
+3. Inventory management adds a strategic layer.
+4. Augmentations provide special abilities.
+5. Combat is often challenging but rewarding.
+6. Open-ended levels encourage experimentation.
+7. No quest markers and vague directions
+8. Climbing mechanics and ledge grabbing adds to the gameplay.
+
+Performance:
+1. Frequent reports of performance issues and low FPS.
+2. Optimization is needed to improve stability.
+3. Bugs and glitches can impact gameplay experience.
+4. Poor Enemy AI can lead to them getting stuck.
+5. Audio bugs and inconsistencies.
+6. Game may unexpectedly crash at points.
+
+Recommendations:
+1. Play the demo before purchasing to assess personal enjoyment.
+2. Be prepared for jank and bugs.
+3. Save frequently to avoid losing progress.
+4. Explore thoroughly and experiment with different approaches.
+5. Keep an open mind and appreciate the unique atmosphere.
+
+Miscellaneous:
+1. Strong comparisons to Deus Ex, EYE Divine Cybermancy, and Stalker.
+2. Frequent mentions of Sewerslvt in the soundtrack.
+3. Some players identify with the main character, Marie.
+4. Setting in a dystopian alternate universe Eastern Europe.
+5. Game is in early access with planned updates.
+```
+
+```csv
+
+[CSV data extracted - see 'Extracted Data' tab or saved files]
+
+```

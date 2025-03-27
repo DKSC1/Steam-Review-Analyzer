@@ -1,0 +1,58 @@
+AIzaSyAe_nVxv1PC06783TSHKciJmDUpcunX7Bc
+
+**Objective:** Analyze a provided set of Steam game reviews to generate two distinct outputs:
+    1. A human-readable text summary and categorized key points.
+    2. The *exact same* information formatted as Google Docs compatible CSV data, clearly demarcated.
+
+**Input:** A collection of Steam reviews for a single game (to be provided by the user).
+
+**Parameter: Number of Points per Category:**
+*   Set the desired number of points per category here: `NUM_POINTS = 20`
+
+**Instructions:**
+
+1.  **Wait for Input:** Do not begin processing until the user provides the Steam reviews.
+2.  **Analyze Reviews:** Read through all provided reviews to understand main themes, common praises, criticisms, and other relevant points regarding gameplay, performance, etc.
+3.  **Generate Content (Internal Step):** Based on the analysis, formulate:
+    *   A concise (2-3 sentences) overall summary.
+    *   Key points for each category: Generate **up to** `NUM_POINTS` distinct, very short (max 10-15 words) key points for *each* of the following six categories: Positives, Negatives, Gameplay, Performance, Recommendations, Miscellaneous.
+    *   **Adaptive Point Generation:** Prioritize creating distinct and meaningful points directly supported by the reviews. **If you cannot reasonably extract `NUM_POINTS` distinct points for a specific category from the provided reviews, generate only as many distinct points as are well-supported.** Do not repeat points or add filler just to reach the `NUM_POINTS` target.
+4.  **Output Generation Part 1: Human-Readable Text:**
+    *   First, present the generated content in a clear, human-readable text format.
+    *   Use a heading for the "Overall Summary" followed by the summary text.
+    *   Use clear headings for each of the six categories (Positives, Negatives, etc.).
+    *   Under each category heading, list the corresponding short points (max 10-15 words each) generated in Step 3 (this could be *up to* `NUM_POINTS`), preferably using bullet points or a numbered list.
+5.  **Output Generation Part 2: CSV Data:**
+    *   Second, *immediately following* the text output, present the *exact same* summary and categorized points again, but this time formatted strictly as CSV data.
+    *   **Crucially, enclose the *entire* CSV data block within specific markers:**
+        *   Place `<CSV_START>` on its own line *immediately before* the first line of the CSV (the header row: `Category,Point_Number,Content`).
+        *   Place `<CSV_END>` on its own line *immediately after* the last line of the CSV data.
+    *   **Do not include any other text or explanations *between* the `<CSV_START>` and `<CSV_END>` markers.**
+    *   The CSV format must adhere to standard conventions (comma delimiters, appropriate quoting for fields if needed) and use UTF-8 encoding, making it **automatically compatible for direct import into Google Docs (Google Sheets)**.
+    *   Use the specified CSV structure (detailed below) *between* the markers.
+6.  **Content Consistency:** Ensure the text of the overall summary and the text of *each* generated point are **identical** in both the human-readable output (Part 1) and the CSV data output (Part 2). Only the formatting should differ.
+
+**Structure for Human-Readable Text Output (Part 1):**
+
+
+**CSV Structure Specification (For Part 2, between `<CSV_START>` and `<CSV_END>`):**
+
+*   **Columns:** `Category`, `Point_Number`, `Content`
+*   **Overall Summary:** Use "Summary" in the `Category` column, leave `Point_Number` blank or use '1', and put the *identical* summary text in the `Content` column.
+*   **Categorized Points:** For each point generated within a category, create a row. Use the category name in the `Category` column, the sequential point number (1, 2, 3... up to the actual number generated for that category) in the `Point_Number` column, and the *identical* short point text in the `Content` column. The number of rows per category will correspond to the number of points generated for it (up to `NUM_POINTS`).
+
+**Example Snippet of Expected CSV *Content* (Goes *between* the markers in Part 2, assuming NUM_POINTS=10 but only 8 Negatives were found):**
+
+```csv
+Category,Point_Number,Content
+Summary,,"Overall positive reception, praising gameplay loop but noting significant performance issues on some hardware."
+Positives,1,"Engaging core gameplay loop keeps players hooked."
+Positives,2,"Beautiful art style and environmental design appreciated."
+...
+Positives,10,"[Tenth positive point, if found]"
+Negatives,1,"Frequent crashes and bugs reported by many users."
+Negatives,2,"Poor optimization leads to low FPS on capable PCs."
+...
+Negatives,8,"[Eighth distinct negative point found]" // Note: Stops at 8 if only 8 were distinct
+Gameplay,1,"Combat system is deep and rewarding to master."
+... (and so on for all categories, generating up to NUM_POINTS rows per category) ...

@@ -1,0 +1,86 @@
+Okay, I have received the Steam reviews for 'Lingo 2'. Based *only* on these reviews, here is the analysis:
+
+***
+
+**Part 1: Human-Readable Text Output**
+
+**Overall Summary**
+Lingo 2 is overwhelmingly praised as a deep, expansive, and clever word puzzle game, often seen as improving on its predecessor with new symbol-based mechanics and Metroidvania-style exploration. While the complex non-euclidean world and letter-gating mechanic can be divisive or frustrating for some, the core rule discovery and satisfying puzzles make it a highly recommended experience for puzzle enthusiasts.
+
+**Positives**
+*   1. Phenomenal, clever, and satisfying word puzzles.
+*   2. Deep rule discovery gameplay loop is highly engaging.
+*   3. Massive amount of content and secrets provide great value.
+*   4. New symbol system often preferred over Lingo 1's mechanics.
+*   5. Considered by many a masterpiece or best puzzle game ever.
+*   6. Rewarding sense of progression and "aha!" moments.
+*   7. Excellent soundtrack enhances the atmosphere.
+*   8. Improves on Lingo 1 in many aspects (bigger, better).
+*   9. Ingenious non-linear and non-euclidean level design.
+*   10. Fresh experience even for Lingo 1 veterans.
+
+**Negatives**
+*   1. Complex non-euclidean map is confusing and easy to get lost in.
+*   2. Letter collection mechanic causes backtracking and frustration for some.
+*   3. Some puzzles feel ambiguous or require obscure knowledge.
+*   4. Navigation can be frustrating, especially in certain areas (Daedalus).
+*   5. Early game can feel linear or slow due to letter gating.
+*   6. Occasional motion sickness reported due to visuals/navigation.
+*   7. Some find the lack of clear direction or hints frustrating.
+*   8. Repetitive running around needed when stuck or backtracking.
+*   9. Loading screens between areas can break immersion slightly.
+*   10. Some mechanics/puzzles felt unfair or less engaging than others.
+
+**Gameplay**
+*   1. Core loop: solve word puzzles by discovering opaque rules.
+*   2. Features new symbol-based mechanics replacing Lingo 1's colors/heights.
+*   3. Metroidvania elements: collect letters to unlock puzzle solvability.
+*   4. Exploration-heavy: navigating a vast, interconnected, non-euclidean world.
+*   5. Environmental puzzles and clues integrated into the world.
+*   6. Rule discovery is central; game teaches through examples.
+*   7. Multiple endings and layers of secrets encourage deep play.
+*   8. Focus shifts between wordplay, riddles, and navigation challenges.
+*   9. Emphasis on remembering locations and details across the map.
+*   10. Open-ended structure allows varied progression paths (mostly).
+
+**Performance**
+*   1. Generally smooth gameplay experience reported.
+*   2. Loading screens between areas noted, slightly disruptive.
+*   3. Higher hardware requirements than Lingo 1 mentioned.
+*   4. Some areas may cause increased hardware temperature (e.g., GPU).
+*   5. Minor camera jitters near walls occasionally observed.
+*   6. Graphics settings available to adjust performance.
+*   7. No widespread reports of major bugs or crashes.
+*   8. Potential screen burn-in concern on OLED (Deck) due to static UI.
+*   9. Overall performance seems stable for most players.
+*   10. Non-euclidean transitions sometimes less seamless than L1 due to loading.
+
+**Recommendations**
+*   1. Highly recommended for puzzle game and word puzzle fans.
+*   2. Essential for fans of Lingo 1, offering more and better content.
+*   3. Play with friends for collaborative puzzle solving and hints.
+*   4. Take notes to track locations, rules, and unsolved puzzles.
+*   5. Utilize the in-game hint system (Hinterlands) or community (Discord).
+*   6. Be patient; getting stuck and exploring is part of the experience.
+*   7. Suitable for newcomers, Lingo 1 knowledge not strictly required.
+*   8. Consider Lingo 1 first if unsure or prefer more initial openness.
+*   9. Avoid if easily frustrated by mazes or lack of direction.
+*   10. Caution advised for players prone to motion sickness.
+
+**Miscellaneous**
+*   1. Features an acclaimed, atmospheric soundtrack.
+*   2. Game is significantly larger and longer than Lingo 1 (40+ hours).
+*   3. Offers multiple distinct endings adding replay value.
+*   4. Strong community engagement, especially on Discord.
+*   5. Compared often to The Witness and Antichamber.
+*   6. Symbol system is more colorblind-friendly than Lingo 1's.
+*   7. Future updates and modding potential mentioned.
+*   8. Praised for its unique blend of genres (puzzle, metroidvania, exploration).
+*   9. Many reviewers consider it great value for its price.
+*   10. Developer praised for learning from L1 and improving the formula.
+
+***
+
+**Part 2: CSV Data Output**
+
+[CSV data extracted separately]
